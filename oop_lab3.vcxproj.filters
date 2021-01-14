@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Session.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ShipConsoleSession.h">
+      <Filter>headers\session</Filter>
+    </ClCompile>
+    <ClCompile Include="ShipConsoleSession.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Ship.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="sources">
+      <UniqueIdentifier>{d9eae860-95cc-4fa3-9b7b-93ad6f17b5fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers">
+      <UniqueIdentifier>{c2df70ee-3cac-4362-9b8b-31d6add1d37b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers\player">
+      <UniqueIdentifier>{1f399735-2496-4c5d-9760-37926c6b4ce5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers\session">
+      <UniqueIdentifier>{3a9ca98e-d534-4072-8d3c-b6a8e69fdfc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{b8c8a70f-99bc-49c4-b10c-a38b3907dddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers\game">
+      <UniqueIdentifier>{314caa16-ee21-408f-b88e-bf2024018ff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers\exceptions">
+      <UniqueIdentifier>{5986fd3e-a456-4cf7-9079-37ef63e45dda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="parser">
+      <UniqueIdentifier>{d2e3f2a7-4053-487f-be15-d2eca05c68ac}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Player.h">
+      <Filter>headers\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>headers\session</Filter>
+    </ClInclude>
+    <ClInclude Include="Ship.h">
+      <Filter>headers\game</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>headers\game</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>headers\game</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>headers\session</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic.h">
+      <Filter>headers\game</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer.h">
+      <Filter>headers\session</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>headers\session</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception.h">
+      <Filter>headers\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerException.h">
+      <Filter>headers\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicException.h">
+      <Filter>headers\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="optionparser.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
