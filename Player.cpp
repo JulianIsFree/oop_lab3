@@ -7,13 +7,13 @@
 
 #include "Session.h"
 
-void Player::bind(Player * oponent)
+void ShipPlayer::bind(const std::shared_ptr<ShipPlayer>& oponent)
 {
 	if (isBound)
-		throw PlayerBoundException(id, (*this->oponent)->id);
+		throw PlayerBoundException(id, this->oponent->getName());
 	
 	isBound = true;
-	this->oponent = std::make_shared<Player*>(oponent);
+	this->oponent = oponent;
 }
 
 bool Player::onTurn()
@@ -30,8 +30,10 @@ bool ShipPlayer::onTurn()
 
 	try
 	{
-		std::unique_ptr<Event*> e = controller.onTurn();
-		(*e)->run(*this, **oponent);
+		//ShipController & c = dynamic_cast<ShipController&>(*controller);
+		ShipController *c = &(*controller);
+		std::shared_ptr<Event> e = c->onTurn();
+		e->run(*this, *oponent);
 	}
 	catch(LogicException& e)
 	{
@@ -55,5 +57,5 @@ bool ShipPlayer::isDefeated()
 void ShipPlayer::onShipLost(const Ship & ship)
 {
 	this->sendMessage("You lost object: " + std::string(ship));
-	(*oponent)->sendMessage("Enemy lost object: " + std::string(ship));
+	oponent->sendMessage("Enemy lost object: " + std::string(ship));
 }

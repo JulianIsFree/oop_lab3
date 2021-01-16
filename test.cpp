@@ -1,3 +1,4 @@
+#ifdef LAB_TEST
 #define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
 #include <memory>
 
@@ -89,3 +90,4 @@ TEST(shared_ptr, virtual)
 	EXPECT_EQ(foo(**c), 2);
 	EXPECT_EQ(foo(**d), 2);
 }
+#endif

@@ -9,7 +9,7 @@ class Event;
 class Controller
 {
 public:
-	virtual std::unique_ptr<Event*> onTurn();
+	virtual std::shared_ptr<Event> onTurn()=0;
 };
 
 class ShipController : public Controller
@@ -20,8 +20,12 @@ protected:
 	std::vector<Ship> ships;
 	virtual void generateShipPosition() { ships.clear(); };
 public:
+	virtual std::shared_ptr<Event> onTurn();
 	ShipController() : fieldW(10), fieldH(10) { generateShipPosition(); };
-	const std::vector<Ship>& getShips() const { return ships; };
+	const std::vector<Ship>& getShips() const 
+	{
+		return ships;
+	};
 };
 
 class RandomShipController : public ShipController
@@ -32,7 +36,7 @@ protected:
 	virtual void generateShipPosition() override;
 public:
 	RandomShipController() { generateShipPosition(); generateAttackSequence(); };
-	virtual std::unique_ptr<Event*> onTurn() override;
+	virtual std::shared_ptr<Event> onTurn() override;
 };
 
 class ExternalShipController : public ShipController
@@ -41,7 +45,7 @@ protected:
 	virtual void generateShipPosition() override;
 public:
 	ExternalShipController() { generateShipPosition(); };
-	virtual std::unique_ptr<Event*> onTurn() override;
+	virtual std::shared_ptr<Event> onTurn() override;
 };
 
 class OptimalShipController : public RandomShipController

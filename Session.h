@@ -8,9 +8,8 @@ class Viewer;
 class Session
 {
 protected:
-	std::shared_ptr<Player*> p1, p2;
 	int rounds;
 public:
-	Session(Player *p1, Player *p2, int rounds);
-	void run();
+	Session(int rounds);
+	virtual void run() {};
 };

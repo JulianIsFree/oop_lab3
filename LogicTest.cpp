@@ -1,3 +1,4 @@
+#ifdef LAB_TEST
 #define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
 #include "gtest/gtest.h"
 
@@ -82,3 +83,4 @@ TEST(Rectangle, transport)
 	EXPECT_EQ(rect.isCollision(Point(2, 1)), false);
 	EXPECT_EQ(rect.isCollision(Point(1, 2)), true);
 }
+#endif

@@ -4,10 +4,6 @@
 
 #include "Ship.h"
 
-std::unique_ptr<Event*> Controller::onTurn()
-{
-	return std::make_unique<Event*>(new Event());
-}
 void RandomShipController::generateAttackSequence()
 {
 	Point * subArr = new Point[fieldW * fieldH];
@@ -66,7 +62,7 @@ void RandomShipController::generateShipPosition()
 	}
 }
 
-std::unique_ptr<Event*> RandomShipController::onTurn()
+std::shared_ptr<Event> RandomShipController::onTurn()
 {
 	if (attackSequence.empty())
 		generateAttackSequence();
@@ -74,7 +70,7 @@ std::unique_ptr<Event*> RandomShipController::onTurn()
 	Point p = attackSequence[attackSequence.size() - 1];
 	attackSequence.pop_back();
 
-	return std::make_unique<Event*>(new AttackEvent(p));
+	return std::make_shared<AttackEvent>(AttackEvent(p));
 }
 
 void ExternalShipController::generateShipPosition()
@@ -140,7 +136,7 @@ void ExternalShipController::generateShipPosition()
 	}
 }
 
-std::unique_ptr<Event*> ExternalShipController::onTurn()
+std::shared_ptr<Event> ExternalShipController::onTurn()
 {
 	std::cout << "Enter \"attack x y\" or \"surrender\": ";
 	std::string word;
@@ -149,14 +145,14 @@ std::unique_ptr<Event*> ExternalShipController::onTurn()
 	{
 		int x, y;
 		std::cin >> x >> y;
-		return std::make_unique<Event*>(new AttackEvent(Point(x, y)));
+		return std::make_shared<AttackEvent>(AttackEvent(Point(x, y)));
 	}
 	else if ("surrender" == word)
 	{
 		std::string why;
 		std::cout << "Enter reason: " << std::endl;
 		std::cin >> why;
-		return std::make_unique<Event*>(new SurrenderEvent(why.empty() ? "no reason" : why));
+		return std::make_shared<SurrenderEvent>(SurrenderEvent(why.empty() ? "no reason" : why));
 	}
 	else
 		return onTurn();
@@ -294,4 +290,9 @@ void OptimalShipController::generateShipPosition()
 	ships.clear();
 	allocateBigShips();
 	allocateLittleShips();
+}
+
+std::shared_ptr<Event> ShipController::onTurn()
+{
+	return std::make_shared<SurrenderEvent>("no reason");
 }

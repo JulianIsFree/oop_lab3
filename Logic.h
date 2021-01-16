@@ -15,7 +15,7 @@ public:
 
 class Shape {};
 
-class Point
+struct Point
 {
 public:
 	int x;

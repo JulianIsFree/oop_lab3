@@ -1,6 +1,6 @@
 ﻿cl : командная строка warning D9035: использование параметра "Gm" нежелательно, он будет удален в следующих выпусках
   ShipConsoleSession.cpp
-c:\users\bulat\source\repos\oop_lab3\oop_lab3\shipconsolesession.cpp(16): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
 c:\users\bulat\source\repos\oop_lab3\oop_lab3\shipconsolesession.cpp(21): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-c:\users\bulat\source\repos\oop_lab3\oop_lab3\shipconsolesession.cpp(114): warning C4101: e: неиспользованная локальная переменная
+c:\users\bulat\source\repos\oop_lab3\oop_lab3\shipconsolesession.cpp(78): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+Debug\ShipConsoleSession.obj : warning LNK4042: юс·хъЄ єърчрэ сюыхх юфэюую Ёрчр; ыш°эшх эх єўшЄ√тр■Єё
   oop_lab3.vcxproj -> C:\Users\bulat\source\repos\oop_lab3\Debug\oop_lab3.exe

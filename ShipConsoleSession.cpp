@@ -12,19 +12,80 @@
 /*
 n 0 0 n 2 0 n 4 0 n 6 0 n 8 0 n 0 8 n 2 9 n 4 9 n 6 9 n 8 9
 */
-ShipConsoleSession::ShipConsoleSession(ShipController & c1, ShipController & c2, ConsoleViewer &v1, ConsoleViewer &v2, int rounds) :
-	Session(new ShipPlayer("Vanguard", c1, v1), new ShipPlayer("Solo-rankers", c2, v2), rounds) {	srand(time(NULL));
+ShipConsoleSession::ShipConsoleSession(const std::shared_ptr<ShipController>& c1, const std::shared_ptr<ShipController>& c2, 
+	const std::shared_ptr<ConsoleViewer>&v1, const std::shared_ptr<ConsoleViewer>&v2, int rounds) :
+	Session(rounds),
+	p1(std::make_shared<ShipPlayer>("Vanguard", c1, v1)),
+	p2(std::make_shared<ShipPlayer>("Solo-ranker", c2, v2))
+	{
+		srand(time(NULL));
+		this->p1->bind(p2);
+		this->p2->bind(p1);
+	}
+
+////////
+void ShipConsoleSession::run()
+{
+	while (rounds-- > 0)
+	{
+		p1->sendMessage("Round starts");
+		p2->sendMessage("Round starts");
+
+		int turn = 1;
+		while (true)
+		{
+			std::string message = "Turn: " + std::to_string(turn);
+			p1->sendMessage(message);
+			while (!p2->isDefeated() &&
+				p1->onTurn());
+			if (p1->isDefeated())
+			{
+				p1->onDefeat();
+				p2->sendMessage("You won");
+				break;
+			}
+			if (p2->isDefeated())
+			{
+				p2->onDefeat();
+				p1->sendMessage("You won");
+				break;
+			}
+
+			p2->sendMessage("Turn: " + std::to_string(turn));
+			while (!p1->isDefeated() &&
+				p2->onTurn());
+			if (p1->isDefeated())
+			{
+				p1->onDefeat();
+				p2->sendMessage("You won");
+				break;
+			}
+			if (p2->isDefeated())
+			{
+				p2->onDefeat();
+				p1->sendMessage("You won");
+				break;
+			}
+
+			++turn;
+		}
+	}
+
 }
 
 int main(int argc, char* argv[])
 {
 	srand(time(NULL));
 	Parser parser(argc, argv);
-	////
+	//////..
+	//////
 	if (parser.pars() != 0)
 		return 1;
-	ShipConsoleSession s(parser.getFirst(), parser.getSecond(), ConsoleViewer(), ConsoleViewer(), parser.getRounds());
+
+	ShipConsoleSession s(parser.getFirst(), parser.getSecond(), 
+		std::make_shared<ConsoleViewer>(), std::make_shared<ConsoleViewer>(),parser.getRounds());
 	s.run();
+
 	return 0;//
 }
 
@@ -53,7 +114,7 @@ int Parser::pars()
 	if (parse.error())
 		return 1;
 
-	if (options[HELP] || argc == 0)
+	if (options[HELP])
 	{
 		option::printUsage(cout, usage);
 		return 1;
@@ -61,7 +122,7 @@ int Parser::pars()
 
 	if (options[FIRST].count() == 0)
 	{
-		first = make_unique<ShipController*>(new RandomShipController());
+		first = make_shared<RandomShipController>(RandomShipController());
 	}
 	else
 	{
@@ -70,18 +131,18 @@ int Parser::pars()
 			return 1;
 		std::string word(o->arg);
 		if (word == "=random")
-			first = make_unique<ShipController*>(new RandomShipController());
+			first = make_shared<RandomShipController>(RandomShipController());
 		else if (word == "=player")
-			first = make_unique<ShipController*>(new ExternalShipController());
+			first = make_shared<ExternalShipController>(ExternalShipController());
 		else if (word == "=optimal")
-			first = make_unique<ShipController*>(new OptimalShipController());
+			first = make_shared<OptimalShipController>(OptimalShipController());
 		else
 			return 1;
 	}
 
 	if (options[SECOND].count() == 0)
 	{
-		second = make_unique<ShipController*>(new RandomShipController());
+		second = make_shared<RandomShipController>(RandomShipController());
 	}
 	else
 	{
@@ -90,11 +151,11 @@ int Parser::pars()
 			return 1;
 		std::string word(o->arg);
 		if (word == "=random")
-			second = make_unique<ShipController*>(new RandomShipController());
+			second = make_shared<RandomShipController>(RandomShipController());
 		else if (word == "=player")
-			second = make_unique<ShipController*>(new ExternalShipController());
+			second = make_shared<ExternalShipController>(ExternalShipController());
 		else if (word == "=optimal")
-			second = make_unique<ShipController*>(new OptimalShipController());
+			second = make_shared<OptimalShipController>(OptimalShipController());
 		else
 			return 1;
 	}
@@ -107,14 +168,9 @@ int Parser::pars()
 	{
 		if (options[COUNT].last()->arg == nullptr)
 			return 1;
-		try 
-		{
-			rounds = atoi(options[COUNT].last()->arg);
-		}
-		catch(std::exception &e)
-		{
-			return 1;
-		}
+
+		const char* arg = options[COUNT].last()->arg + 1;
+		rounds = atoi(arg);
 	}
 
 	return 0;

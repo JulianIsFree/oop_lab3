@@ -28,24 +28,20 @@ public:
 class Player : public PlayerInterface
 {
 protected:
-	Controller &controller;
-	Viewer &viewer;
 	std::string id;
-	std::shared_ptr<Player*> oponent;
-
 	bool isBound;
 	bool isSurrender;
 public:
-	Player(const std::string &name, Controller& controller, Viewer& viewer) : id(name), isBound(false),
-		controller(controller), viewer(viewer), isSurrender(false) {};
-	void bind(Player* oponent);
+	Player(const std::string &name) : 
+		id(name), isBound(false),
+		isSurrender(false) {};
 
 	// returns false is turn is ended
 	virtual bool onTurn();
 	virtual void onDefeat() { sendMessage(id + " is defeated"); };
 	virtual bool isDefeated() { return true; };
 	virtual void onSurrender() { isSurrender = true; sendMessage(id + " admits defeat"); };
-	virtual void sendMessage(const std::string &message) { viewer.sendMessage(message); };
+	virtual void sendMessage(const std::string &message) { std::cout << message << std::endl; };
 	virtual bool onAttack(int x, int y) { return false; };
 
 	const std::string& getName() { return id; };
@@ -54,11 +50,21 @@ public:
 class ShipPlayer : public Player
 {
 private:
+	std::shared_ptr<ShipController> controller;
+	std::shared_ptr<Viewer> viewer;
+	std::shared_ptr<ShipPlayer> oponent;
 	ShipField field;
 public:
-	ShipPlayer(const std::string &name, ShipController& controller, Viewer& viewer) : Player(name, controller, viewer), field(controller.getShips(), *this) {};
+	ShipPlayer(const std::string &name, const std::shared_ptr<ShipController>& controller, 
+		const std::shared_ptr<Viewer>& viewer) : Player(name), 
+		field(controller->getShips(), *this),
+		controller(controller),
+		viewer(viewer)
+	{};
+	virtual void ShipPlayer::bind(const std::shared_ptr<ShipPlayer>& oponent);
 	virtual bool onTurn() override;
 	virtual bool isDefeated() override;
+	virtual void sendMessage(const std::string & message) override { viewer->sendMessage(message); }
 	virtual bool onAttack(int x, int y) override { return field.onAttack(x, y); };
 	void onShipLost(const Ship& ship);
 };
